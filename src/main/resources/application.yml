@@ -1,1 +1,18 @@
-spring.application.name=spring-db202507
+
+server:
+  port: 9001
+
+spring:
+  application:
+    name: spring-db202507
+  datasource:
+    url: jdbc:mariadb://localhost:3306/spring_study
+    username: root
+    password: mariadb
+
+
+
+logging:
+  level:
+    root: INFO
+    com.spring.database: DEBUG
