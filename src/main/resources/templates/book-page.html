@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Management System</title>
+  <link rel="stylesheet" href="/book/book-style.css">
+  <script src="/book/book.js" defer></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>
+      📚 도서 관리 시스템 (총 <span class="book-count">0</span>권)
+    </h1>
+
+    <div class="form-container">
+      <h2>📖 새 도서 등록</h2>
+      <form id="book-form">
+        <div class="form-group">
+          <label for="title">제목</label>
+          <input type="text" id="title" placeholder="책 제목을 입력하세요." required>
+        </div>
+        <div class="form-group">
+          <label for="author">저자</label>
+          <input type="text" id="author" placeholder="저자 이름을 입력하세요." required>
+        </div>
+        <div class="form-group">
+          <label for="isbn">ISBN</label>
+          <input type="text" id="isbn" placeholder="ISBN을 입력하세요." required>
+        </div>
+        <button type="submit" class="add-btn">등록하기</button>
+      </form>
+    </div>
+
+    <div class="list-container">
+      <div class="list-header">
+        <h2>📑 등록된 도서 목록</h2>
+        <div class="sort-buttons">
+          <button class="sort-btn" data-sort="title">제목순</button>
+          <button class="sort-btn" data-sort="isbn">ISBN순</button>
+        </div>
+      </div>
+      <ul class="book-list">
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>
