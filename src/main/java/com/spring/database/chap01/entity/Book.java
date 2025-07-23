@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS books (
 
 import lombok.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @Getter
@@ -31,4 +33,13 @@ public class Book {
     private String isbn;
     private boolean available;
     private LocalDateTime createdAt;
+
+    public Book(ResultSet rs) throws SQLException {
+        this.id = rs.getLong("id");
+        this.title = rs.getString("title");
+        this.author = rs.getString("author");
+        this.isbn = rs.getString("isbn");
+        this.available = rs.getBoolean("available");
+        this.createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+    }
 }
