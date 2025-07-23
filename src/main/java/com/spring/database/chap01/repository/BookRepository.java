@@ -8,8 +8,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,7 +107,23 @@ public class BookRepository {
     }
 
     // id로 단일조회 메서드
-    public Book findById() {
+    public Book findById(Long id) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = """
+                        SELECT * FROM books
+                        WHERE id = ?
+                    """;
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) return new Book(rs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
