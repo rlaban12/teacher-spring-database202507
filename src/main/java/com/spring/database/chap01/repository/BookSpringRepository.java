@@ -53,11 +53,22 @@ public class BookSpringRepository implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        return List.of();
+        String sql = """
+                        SELECT * FROM books
+                    """;
+        return template.query(sql, (rs, rowNum) -> new Book(rs));
     }
 
     @Override
     public Book findById(Long id) {
-        return null;
+        String sql = """
+                        SELECT * FROM books
+                        WHERE id = ?
+                    """;
+        return template.queryForObject(
+                sql,
+                (rs, n) -> new Book(rs),
+                id
+        );
     }
 }
