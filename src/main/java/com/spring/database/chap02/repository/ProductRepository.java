@@ -76,7 +76,7 @@ public class ProductRepository {
     // 전체 상품의 총액과 평균가격을 가져오는 기능
     public PriceInfo getPriceInfo() {
         String sql = """
-                SELECT
+               SELECT
                    SUM(price) AS total_price
                     , AVG(price) AS average_price
                FROM PRODUCTS
