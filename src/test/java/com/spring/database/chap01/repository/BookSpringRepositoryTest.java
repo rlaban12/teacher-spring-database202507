@@ -29,4 +29,35 @@ class BookSpringRepositoryTest {
         assertTrue(flag);
     }
 
+
+    @Test
+    @DisplayName("스프링 JDBC로 책 제목과 저자를 수정한다.")
+    void updateTest() {
+        //given
+        Book modifyBook = Book.builder()
+                .title("수정된 스프링 책")
+                .author("수정된 자바왕")
+                .id(13L)
+                .build();
+        //when
+        boolean b = bookSpringRepository.updateTitleAndAuthor(modifyBook);
+
+        //then
+        assertTrue(b);
+    }
+
+
+    @Test
+    @DisplayName("Spring JDBC로 도서 정보 삭제한다.")
+    void deleteTest() {
+        //given
+        Long id = 4L;
+        //when
+        boolean b = bookSpringRepository.deleteById(id);
+        //then
+        assertTrue(b);
+    }
+
+
+
 }

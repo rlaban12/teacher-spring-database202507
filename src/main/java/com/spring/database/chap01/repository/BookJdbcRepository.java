@@ -13,7 +13,7 @@ import java.util.List;
 
 // 역할: 데이터베이스에 접근해서 CRUD를 수행하는 객체
 @RequiredArgsConstructor
-@Repository
+@Repository("bjr")
 public class BookJdbcRepository implements BookRepository {
 
     private final DataSource dataSource;
