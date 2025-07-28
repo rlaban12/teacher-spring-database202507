@@ -9,6 +9,13 @@ spring:
     url: jdbc:mariadb://localhost:3306/spring_study
     username: root
     password: mariadb
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
 
 # MyBatis Setting
 mybatis:
@@ -16,10 +23,13 @@ mybatis:
   mapper-locations: classpath:mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-  type-aliases-package: com.spring.database
+  type-aliases-package: com.spring.database.chap03
 
 
 logging:
   level:
     root: INFO
     com.spring.database: DEBUG
+    org:
+      hibernate:
+        SQL: debug
