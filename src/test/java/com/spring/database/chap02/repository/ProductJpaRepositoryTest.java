@@ -13,7 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class ProductRepositoryTest {
+class ProductJpaRepositoryTest {
 
     @Autowired ProductRepository productRepository;
 

@@ -44,6 +44,13 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Category category; // 상품 카테고리
 
+    // 수정용 편의 메서드
+    public void changeProduct(String newName, int newPrice, Category newCategory) {
+        this.name = newName;
+        this.price = newPrice;
+        this.category = newCategory;
+    }
+
     public enum Category {
         FOOD, FASHION, ELECTRONIC
     }
