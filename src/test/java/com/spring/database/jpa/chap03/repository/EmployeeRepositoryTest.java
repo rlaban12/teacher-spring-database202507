@@ -85,6 +85,57 @@ class EmployeeRepositoryTest {
         // 명시적으로 부서정보를 참조 - LAZY로딩은 이 시점에 부서정보를 가져옵니다.
         Department department = employee.getDepartment();
         System.out.println("department = " + department);
+
     }
+
+
+    @Test
+    @DisplayName("특정 부서를 조회하면 해당 소속 사원들이 함께 조회된다.")
+    void findDeptTest() {
+        //given
+        Long deptId = 1L;
+        //when
+        Department foundDept = departmentRepository.findById(deptId).orElseThrow();
+        //then
+        System.out.println("foundDept = " + foundDept);
+        System.out.println(foundDept.getEmployees());
+    }
+
+
+    @Test
+    @DisplayName("양방향 매핑에서 데이터를 수정할 때 발생하는 문제")
+    void changeTest() {
+        //given
+
+        // 3번 사원의 부서를 2번부서에서 1번 부서로 수정
+
+        // 3번 사원 조회
+        Employee foundEmp = employeeRepository.findById(3L).orElseThrow();
+//        System.out.println("foundEmp = " + foundEmp + foundEmp.getDepartment());
+
+        // 1번 부서 조회
+        Department foundDept = departmentRepository.findById(1L).orElseThrow();
+
+        //when
+//        foundEmp.setDepartment(foundDept); // 사원쪽에서 부서정보 변경
+
+        // 양방향에서는 반대편에서도 수동으로 변경처리가 진행되어야 함.
+//        foundDept.getEmployees().add(foundEmp);
+
+        // 연관관계 양방향 수정 편의메서드
+        foundEmp.changeDepartment(foundDept);
+
+        employeeRepository.save(foundEmp);
+
+        //then
+        System.out.println("\n\n변경 후 사원정보 = " + foundEmp + foundEmp.getDepartment());
+
+        // 1번 부서의 사원정보를 다시 조회 -> 예상: ?? 3명
+        List<Employee> employees = foundDept.getEmployees();
+        System.out.println("\n\nemployees = " + employees);
+        System.out.println("employees.size = " + employees.size());
+
+    }
+
 
 }
