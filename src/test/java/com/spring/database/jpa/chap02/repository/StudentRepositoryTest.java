@@ -1,4 +1,4 @@
-package com.spring.database.jpa.chap02;
+package com.spring.database.jpa.chap02.repository;
 
 import com.spring.database.jpa.chap02.entity.Student;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -88,6 +87,32 @@ class StudentRepositoryTest {
         //then
         students.forEach(System.out::println);
     }
+
+
+    @Test
+    @DisplayName("JPQL로 조회해보기")
+    void jpqlTest() {
+        //given
+        String city = "서울시";
+        //when
+        List<Student> students = studentRepository.getStudentByCity(city);
+        //then
+        students.forEach(System.out::println);
+    }
+
+
+    @Test
+    @DisplayName("순수 SQL로 조회하기")
+    void nativeSQLTest() {
+        //given
+        String name = "어피치";
+        String city = "제주도";
+        //when
+        List<Student> students = studentRepository.getStudents(name, city);
+        //then
+        students.forEach(System.out::println);
+    }
+
 
 
 }
