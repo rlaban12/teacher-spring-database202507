@@ -52,8 +52,14 @@ public class Department {
 
         - orphanRemoval : 고아 객체 삭제 - 부모와의 연결이 끊어진 자식객체를 데이터베이스에서 삭제
      */
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees = new ArrayList<>();
 
+
+    // 양방향 매핑 리스트에 사원을 추가할 때 사용할 편의 메서드
+    public void addEmployee(Employee employee) {
+        employee.setDepartment(this);
+        this.employees.add(employee);
+    }
 
 }
