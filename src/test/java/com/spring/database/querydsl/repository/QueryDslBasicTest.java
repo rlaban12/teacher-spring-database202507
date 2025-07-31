@@ -32,6 +32,9 @@ class QueryDslBasicTest {
     @Autowired
     JdbcTemplate jdbcTemplate;  // JDBC의 핵심객체
 
+    @Autowired
+    JPAQueryFactory factory;  // QueryDsl 핵심객체
+
     @BeforeEach
     void setUp() {
 
@@ -142,7 +145,7 @@ class QueryDslBasicTest {
     @DisplayName("QueryDsl로 특정 이름의 아이돌 조회하기")
     void queryDslTest() {
         //given
-        JPAQueryFactory factory = new JPAQueryFactory(em);
+//        JPAQueryFactory factory = new JPAQueryFactory(em);
 
         //when
         Idol foundIdol = factory
@@ -154,6 +157,7 @@ class QueryDslBasicTest {
         System.out.println("\n\nfoundIdol = " + foundIdol);
         System.out.println("foundIdol.getGroup() = " + foundIdol.getGroup());
     }
+
 
 
 }
