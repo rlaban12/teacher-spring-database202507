@@ -118,10 +118,9 @@ class QueryDslBasicTest {
         //when
         Idol foundIdol = jdbcTemplate.queryForObject(sql,
                 (rs, n) -> new Idol(
-                        rs.getLong("idol_id")
-                        , rs.getString("idol_name")
-                        , rs.getInt("age")
-                        , null
+//                        rs.getLong("idol_id")
+//                        , rs.getString("idol_name")
+//                        , rs.getInt("age")
                 ),
                 "김채원"
         );
