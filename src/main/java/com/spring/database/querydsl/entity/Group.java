@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = {"idols"})
+@ToString(exclude = {"idols", "albums"})
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +27,9 @@ public class Group {
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Idol> idols = new ArrayList<>();
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Album> albums = new ArrayList<>();
 
     public Group(String groupName) {
         this.groupName = groupName;

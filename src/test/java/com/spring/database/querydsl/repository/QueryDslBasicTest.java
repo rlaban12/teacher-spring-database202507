@@ -129,9 +129,9 @@ class QueryDslBasicTest {
                         SELECT * FROM tbl_group WHERE group_id = ?
                         """,
                 (rs, n) -> new Group(
-                        rs.getLong("group_id")
-                        , rs.getString("group_name")
-                        , null
+//                        rs.getLong("group_id")
+//                        , rs.getString("group_name")
+//                        , null
                 ),
                 1
         );
