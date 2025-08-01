@@ -1,5 +1,6 @@
 package com.spring.database.querydsl.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.spring.database.querydsl.entity.*;
 import jakarta.persistence.EntityManager;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.spring.database.querydsl.entity.QAlbum.*;
 import static com.spring.database.querydsl.entity.QGroup.*;
 import static com.spring.database.querydsl.entity.QIdol.*;
 
@@ -119,6 +121,101 @@ public class QueryDslJoinTest {
         System.out.println("\n\n");
         for (Idol i : idolList) {
             System.out.println("i = " + i + i.getGroup());
+        }
+    }
+
+
+    @Test
+    @DisplayName("Left Outer Join 예제")
+    void leftJoinTest() {
+        //given
+
+        //when
+        // 명시적으로 아이돌과 그룹을 조인하고 싶다.
+        List<Idol> idolList = factory
+                .select(idol)
+                .from(idol)
+                .leftJoin(idol.group, group).fetchJoin()
+                .fetch();
+
+        //then
+        System.out.println("\n\n");
+        for (Idol i : idolList) {
+            Group g = i.getGroup();
+            System.out.println("i = " + i + ((g != null ? g : " 그룹 없음") ));
+        }
+    }
+
+
+    @Test
+    @DisplayName("그룹별 평균 나이 계산")
+    void averageAgeTest() {
+        //given
+
+        //when
+        List<Tuple> tuples = factory
+                .select(group.groupName, idol.age.avg())
+                .from(idol)
+                .leftJoin(idol.group, group)
+                .groupBy(idol.group)
+                .fetch();
+
+        //then
+        for (Tuple tuple : tuples) {
+            String groupName = tuple.get(group.groupName);
+            Double average = tuple.get(idol.age.avg());
+            System.out.printf("%s 그룹의 평균나이: %.2f\n", groupName, average);
+        }
+    }
+
+
+    @Test
+    @DisplayName("""
+            2022년에 발매된 앨범이 있는
+            아이돌의 정보
+            (아이돌명, 그룹명, 앨범명, 발매년도) 조회
+            """)
+    void albumTest() {
+        /*
+            SELECT
+                I.idol_name
+                , G.group_name
+                , A.album_name
+                , A.release_year
+            FROM tbl_idol I
+            JOIN tbl_group G
+            ON I.group_id = G.group_id
+            JOIN tbl_album A
+            ON G.group_id = A.group_id
+            WHERE A.release_year = 2022
+         */
+        //given
+        int year = 2022;
+        //when
+        List<Tuple> idolList = factory
+                .select(
+                        idol,
+                        album
+                )
+                // 첫 타겟 idol -> 아 idol이라는 엔터티가 있는거구나
+                .from(idol)
+                // 아 idol은 알고있는데 idol에 있는 group이 QGroup이랑 같은거구나
+                .innerJoin(idol.group, group)
+                // 아 group은 알고 있는데 album은 뭐니?
+                // 야 group에 있는 albums가 album이야
+                .innerJoin(group.albums, album)
+                .where(album.releaseYear.eq(year))
+                .fetch();
+        //then
+        // (아이돌명, 그룹명, 앨범명, 발매년도)
+        for (Tuple tuple : idolList) {
+            Idol foundIdol = tuple.get(idol);
+            Album foundAlbum = tuple.get(album);
+
+            System.out.printf("\n# 아이돌명: %s, 그룹명: %s, 앨범명: %s, 발매년도: %d년\n\n"
+                , foundIdol.getIdolName(), foundIdol.getGroup().getGroupName()
+                    , foundAlbum.getAlbumName(), foundAlbum.getReleaseYear()
+            );
         }
     }
 
